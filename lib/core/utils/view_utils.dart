@@ -5,6 +5,7 @@ import '../values/styles.dart';
 void showSnackBar(BuildContext context, String message) =>
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message, style: textRegularWhite_14pt),
+      behavior: SnackBarBehavior.floating,
     ));
 
 

@@ -4,7 +4,8 @@ export 'data/repositories/weight_repository_impl.dart';
 // DOMAIN
 export 'domain/repositories/weight_repository.dart';
 export 'domain/usecases/get_user_weights_usecase.dart';
+export 'domain/usecases/insert_weights_usecase.dart';
 // PRESENTATION
 export 'presentation/bloc/get_weight/list_weight_cubit.dart';
-export 'presentation/bloc/insert_weight/insert_weight_cubit.dart';
+export 'presentation/bloc/insert_weight/insert_weight_bloc.dart';
 export 'presentation/page/home_page.dart';

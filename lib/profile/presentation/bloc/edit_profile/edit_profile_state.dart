@@ -14,6 +14,4 @@ class EditProfileErrorState extends EditProfileState {
   EditProfileErrorState(this.message);
 }
 
-class EditProfileSucceedState extends EditProfileState {
-  EditProfileSucceedState();
-}
+class EditProfileSucceedState extends EditProfileState {}

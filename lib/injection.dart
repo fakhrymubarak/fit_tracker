@@ -20,10 +20,12 @@ void init() {
 
 void _userWeightInjector() {
   injector.registerFactory(() => ListWeightCubit(injector()));
-  injector.registerFactory(() => InsertWeightCubit());
+  injector.registerFactory(() => InsertWeightBloc(injector()));
 
   injector.registerLazySingleton(
       () => GetUserWeightsUseCase(repository: injector()));
+  injector
+      .registerLazySingleton(() => InsertWeightUseCase(repository: injector()));
 
   injector.registerLazySingleton<WeightRepository>(() => WeightRepositoryImpl(
       remoteDataSource: injector(),

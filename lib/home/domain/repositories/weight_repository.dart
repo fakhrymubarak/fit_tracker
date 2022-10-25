@@ -5,4 +5,6 @@ import '../../data/models/weight.dart';
 
 abstract class WeightRepository {
   Future<Either<Failure, List<Weight>>> getUserWeights();
+
+  Future<Either<Failure, bool>> insertUserWeight(String date, int weight);
 }

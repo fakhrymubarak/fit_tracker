@@ -78,7 +78,7 @@ class _EditProfilePageState extends State<EditProfilePage> with RouteAware {
                     padding: const EdgeInsets.all(spacingRegular),
                     child: DateTextField(
                       controller: _dateController,
-                      labelHint: 'Tanggal Lahir',
+                      labelHint: 'Date of Birth',
                       ontap: () async {
                         await showDatePicker(
                                 context: context,

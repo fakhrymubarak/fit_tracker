@@ -1,4 +1,5 @@
 import 'package:fit_tracker/home/presentation/bloc/get_weight/list_weight_cubit.dart';
+import 'package:fit_tracker/home/presentation/page/insert_weight_bottom_sheet.dart';
 import 'package:fit_tracker/home/presentation/widgets/item_weight_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../../../core/core.dart';
 import '../../../injection.dart' as di;
 import '../../../profile/profile.dart';
-import 'bottom_sheet_insert_weight.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
           // todo check is profile completed?
           buildBottomSheet(
               context: context,
-              bottomSheetWidget: const BottomSheetInsertWeight());
+              bottomSheetWidget: const InsertWeightBottomSheet());
         },
         backgroundColor: colorSecondary,
         child: const Icon(Icons.add),
@@ -123,12 +123,11 @@ class ListWeight extends StatelessWidget {
         }
       },
       buildWhen: (previous, current) =>
-          current is ListWeightLoadingState ||
+      current is ListWeightLoadingState ||
           current is ListWeightHasDataState,
       builder: (context, state) {
         if (state is ListWeightLoadingState) {
-          return const Expanded(
-              child: Center(child: CircularProgressIndicator()));
+          return const Center(child: CircularProgressIndicator());
         } else if (state is ListWeightHasDataState) {
           final weights = state.weights;
           return ListView.builder(
