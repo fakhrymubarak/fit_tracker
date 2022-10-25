@@ -1,0 +1,14 @@
+// DATA
+export 'data/data_sources/profile_remote_data_sources.dart';
+export 'data/repositories/profile_repository_impl.dart';
+// DOMAIN
+export 'domain/entities/user_profile.dart';
+export 'domain/repositories/profile_repository.dart';
+export 'domain/usecases/get_profile_usecase.dart';
+export 'domain/usecases/logout_usecase.dart';
+export 'domain/usecases/update_profile_usecase.dart';
+export 'presentation/bloc/logout/logout_cubit.dart';
+// PRESENTATION
+export 'presentation/bloc/profile/profile_bloc.dart';
+export 'presentation/page/edit_profile_page.dart';
+export 'presentation/page/profile_page.dart';
