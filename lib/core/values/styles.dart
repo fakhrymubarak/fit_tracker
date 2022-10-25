@@ -62,6 +62,14 @@ const textRegularWhite_12pt = TextStyle(
   color: colorWhite,
 );
 
+/// Regular, 12pt, black
+const textRegularBlack_12pt = TextStyle(
+  fontSize: 12,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'Poppins',
+  color: colorBlack,
+);
+
 /// Regular, 12pt, primary
 const textRegularPrimary_12pt = TextStyle(
   fontSize: 12,

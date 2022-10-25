@@ -1,1 +1,10 @@
+// DATA
+export 'data/data_sources/weight_remote_data_sources.dart';
+export 'data/repositories/weight_repository_impl.dart';
+// DOMAIN
+export 'domain/repositories/weight_repository.dart';
+export 'domain/usecases/get_user_weights_usecase.dart';
+// PRESENTATION
+export 'presentation/bloc/get_weight/list_weight_cubit.dart';
+export 'presentation/bloc/insert_weight/insert_weight_cubit.dart';
 export 'presentation/page/home_page.dart';

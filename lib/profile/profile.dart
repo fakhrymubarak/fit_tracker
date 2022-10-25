@@ -7,8 +7,9 @@ export 'domain/repositories/profile_repository.dart';
 export 'domain/usecases/get_profile_usecase.dart';
 export 'domain/usecases/logout_usecase.dart';
 export 'domain/usecases/update_profile_usecase.dart';
-export 'presentation/bloc/logout/logout_cubit.dart';
+export 'presentation/bloc/edit_profile/edit_profile_bloc.dart';
 // PRESENTATION
+export 'presentation/bloc/logout/logout_cubit.dart';
 export 'presentation/bloc/profile/profile_bloc.dart';
 export 'presentation/page/edit_profile_page.dart';
 export 'presentation/page/profile_page.dart';

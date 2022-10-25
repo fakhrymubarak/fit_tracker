@@ -11,6 +11,9 @@ import '../../../domain/usecases/get_profile_usecase.dart';
 part 'profile_event.dart';
 part 'profile_state.dart';
 
+var profileStream =
+    Stream<int>.periodic(const Duration(seconds: 1), (x) => x).take(15);
+
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetProfileUseCase getProfileUseCase;
   final UpdateProfileUseCase updateProfileUseCase;

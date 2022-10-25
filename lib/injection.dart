@@ -1,7 +1,7 @@
-import 'package:fit_tracker/profile/presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import 'core/core.dart';
+import 'home/home.dart';
 import 'login/login.dart';
 import 'profile/profile.dart';
 import 'register/register.dart';
@@ -15,13 +15,32 @@ void init() {
   _loginInjector();
   _registerInjector();
   _profileInjector();
+  _userWeightInjector();
+}
+
+void _userWeightInjector() {
+  injector.registerFactory(() => ListWeightCubit(injector()));
+  injector.registerFactory(() => InsertWeightCubit());
+
+  injector.registerLazySingleton(
+      () => GetUserWeightsUseCase(repository: injector()));
+
+  injector.registerLazySingleton<WeightRepository>(() => WeightRepositoryImpl(
+      remoteDataSource: injector(),
+      networkInfo: injector(),
+      preference: injector()));
+
+  injector.registerLazySingleton<WeightRemoteDataSource>(
+      () => WeightRemoteDataSourceImpl());
 }
 
 void _loginInjector() {
   injector.registerFactory(() => LoginBloc(injector(), injector()));
 
-  injector.registerLazySingleton(() => LoginUserUseCase(repository: injector()));
-  injector.registerLazySingleton(() => CheckHasLoginUseCase(repository: injector()));
+  injector
+      .registerLazySingleton(() => LoginUserUseCase(repository: injector()));
+  injector.registerLazySingleton(
+      () => CheckHasLoginUseCase(repository: injector()));
 
   injector.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(
       remoteDataSource: injector(),

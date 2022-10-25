@@ -1,3 +1,5 @@
+import 'package:fit_tracker/home/presentation/bloc/get_weight/list_weight_cubit.dart';
+import 'package:fit_tracker/home/presentation/widgets/item_weight_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -25,22 +27,28 @@ class _HomePageState extends State<HomePage> with RouteAware {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Provider(
-            create: (_) => di.injector<ProfileBloc>(),
-            builder: (context, child) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: spacingRegular, vertical: spacingRegular),
-                    child: _widgetHeaderProfile(context),
-                  ),
-                ],
-              );
-            }),
+        child: MultiProvider(
+          providers: [
+            BlocProvider(create: (_) => di.injector<ProfileBloc>()),
+            BlocProvider(create: (_) => di.injector<ListWeightCubit>()),
+          ],
+          builder: (_, __) {
+            return Column(
+              children: const [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: spacingRegular, vertical: spacingRegular),
+                  child: HeaderProfileWidget(),
+                ),
+                Expanded(child: ListWeight())
+              ],
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          // todo check is profile completed?
           buildBottomSheet(
               context: context,
               bottomSheetWidget: const BottomSheetInsertWeight());
@@ -50,8 +58,13 @@ class _HomePageState extends State<HomePage> with RouteAware {
       ),
     );
   }
+}
 
-  Widget _widgetHeaderProfile(BuildContext context) {
+class HeaderProfileWidget extends StatelessWidget {
+  const HeaderProfileWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     context.read<ProfileBloc>().add(ProfileFetchEvent());
     return BlocConsumer<ProfileBloc, ProfileState>(
       listenWhen: (previous, current) => current is ProfileErrorState,
@@ -86,6 +99,46 @@ class _HomePageState extends State<HomePage> with RouteAware {
                 ),
               )
             ],
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+    );
+  }
+}
+
+class ListWeight extends StatelessWidget {
+  const ListWeight({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    context.read<ListWeightCubit>().fetchUserWeights();
+
+    return BlocConsumer<ListWeightCubit, ListWeightState>(
+      listenWhen: (previous, current) => current is ListWeightErrorState,
+      listener: (context, state) {
+        if (state is ListWeightErrorState) {
+          showSnackBar(context, state.message);
+        }
+      },
+      buildWhen: (previous, current) =>
+          current is ListWeightLoadingState ||
+          current is ListWeightHasDataState,
+      builder: (context, state) {
+        if (state is ListWeightLoadingState) {
+          return const Expanded(
+              child: Center(child: CircularProgressIndicator()));
+        } else if (state is ListWeightHasDataState) {
+          final weights = state.weights;
+          return ListView.builder(
+            padding: const EdgeInsets.symmetric(
+                vertical: spacingSmall, horizontal: spacingRegular),
+            itemCount: weights.length,
+            itemBuilder: (context, index) {
+              final weight = weights[index];
+              return ItemWeightWidget(item: weight);
+            },
           );
         } else {
           return const SizedBox.shrink();
