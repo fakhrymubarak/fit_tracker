@@ -7,4 +7,6 @@ abstract class WeightRepository {
   Future<Either<Failure, List<Weight>>> getUserWeights();
 
   Future<Either<Failure, bool>> insertUserWeight(String date, int weight);
+
+  Future<Either<Failure, bool>> updateUserWeight(Weight data);
 }

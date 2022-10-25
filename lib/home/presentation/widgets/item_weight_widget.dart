@@ -1,4 +1,5 @@
 import 'package:fit_tracker/core/core.dart';
+import 'package:fit_tracker/home/presentation/page/insert_weight_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/models/weight.dart';
@@ -40,7 +41,16 @@ class ItemWeightWidget extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  buildBottomSheet(
+                      context: context,
+                      bottomSheetWidget: InsertWeightBottomSheet(
+                        action: WeightAction.update,
+                        id: item.id,
+                        date: item.inputDate,
+                        weight: item.weight.toString(),
+                      ));
+                },
                 icon: const Icon(Icons.edit, color: colorSecondary),
               ),
               IconButton(

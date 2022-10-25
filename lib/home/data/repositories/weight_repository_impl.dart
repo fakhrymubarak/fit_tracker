@@ -42,8 +42,29 @@ class WeightRepositoryImpl extends WeightRepository {
       try {
         final uid = await preference.getString(PrefKey.userUid);
 
-        final data = Weight(inputDate: date, weight: weight);
+        final data = Weight(id: '', inputDate: date, weight: weight);
         await remoteDataSource.insertUserWeight(uid!, data);
+        return const Right(true);
+      } on AuthException catch (e) {
+        return Left(AuthFailure(e.message));
+      } on ServerException {
+        return const Left(ServerFailure('Server Failure'));
+      } catch (e) {
+        debugPrint(e.toString());
+        return const Left(UnknownFailure.fail);
+      }
+    } else {
+      return const Left(ConnectionFailure.networkFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateUserWeight(Weight data) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final uid = await preference.getString(PrefKey.userUid);
+
+        await remoteDataSource.updateUserWeight(uid!, data);
         return const Right(true);
       } on AuthException catch (e) {
         return Left(AuthFailure(e.message));

@@ -4,10 +4,12 @@ import 'package:equatable/equatable.dart';
 class Weight extends Equatable {
   static const collectionName = 'weights';
 
+  final String id;
   final String inputDate;
   final int weight;
 
   const Weight({
+    required this.id,
     required this.inputDate,
     required this.weight,
   });
@@ -16,6 +18,7 @@ class Weight extends Equatable {
       [SnapshotOptions? options]) {
     final data = snapshot.data();
     return Weight(
+      id: snapshot.id,
       inputDate: data?['date'] ?? "1900-01-01",
       weight: data?['weight'] ?? 0,
     );

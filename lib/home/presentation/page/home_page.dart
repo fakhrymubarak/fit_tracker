@@ -51,7 +51,8 @@ class _HomePageState extends State<HomePage> with RouteAware {
           // todo check is profile completed?
           buildBottomSheet(
               context: context,
-              bottomSheetWidget: const InsertWeightBottomSheet());
+              bottomSheetWidget:
+                  const InsertWeightBottomSheet(action: WeightAction.insert));
         },
         backgroundColor: colorSecondary,
         child: const Icon(Icons.add),

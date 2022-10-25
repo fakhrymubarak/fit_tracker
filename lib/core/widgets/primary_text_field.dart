@@ -16,6 +16,7 @@ class PrimaryTextField extends StatefulWidget {
   final Key? formKey;
   final Function(String)? onChanged;
   final String? errorMessage;
+  final TextEditingController? controller;
   final List<TextFieldType> inputType;
 
   const PrimaryTextField({
@@ -24,6 +25,7 @@ class PrimaryTextField extends StatefulWidget {
     this.formKey,
     this.onChanged,
     this.errorMessage,
+    this.controller,
     this.inputType = const [TextFieldType.text],
   }) : super(key: key);
 
@@ -41,6 +43,7 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
       key: widget.formKey,
       child: TextFormField(
           maxLength: 100,
+          controller: widget.controller,
           onChanged: widget.onChanged,
           obscureText: widget.inputType.contains(TextFieldType.password) &&
               !_isPasswordVisible,
