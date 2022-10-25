@@ -54,14 +54,6 @@ const textRegularGray_14pt = TextStyle(
   color: colorGray4,
 );
 
-/// Semi Bold, 14pt, White
-const textSemiBoldWhite_14pt = TextStyle(
-  fontSize: 14,
-  fontWeight: FontWeight.w600,
-  fontFamily: 'Poppins',
-  color: colorWhite,
-);
-
 /// Regular, 12pt, white
 const textRegularWhite_12pt = TextStyle(
   fontSize: 12,
@@ -78,7 +70,6 @@ const textRegularPrimary_12pt = TextStyle(
   color: colorPrimary,
 );
 
-
 /// Regular, 10pt, white
 const textRegularWhite_10pt = TextStyle(
   fontSize: 10,
@@ -87,12 +78,28 @@ const textRegularWhite_10pt = TextStyle(
   color: colorWhite,
 );
 
+/// Medium, 12pt, Black
+const textMediumBlack_12pt = TextStyle(
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
+  fontFamily: 'Poppins',
+  color: colorBlack,
+);
+
 /// Semi Bold, 20pt, Black
 const textSemiBoldBlack_20pt = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w600,
   fontFamily: 'Poppins',
   color: colorBlack,
+);
+
+/// Semi Bold, 14pt, White
+const textSemiBoldWhite_14pt = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'Poppins',
+  color: colorWhite,
 );
 
 const textTheme = TextTheme(

@@ -1,3 +1,4 @@
+import 'package:fit_tracker/profile/presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import 'core/core.dart';
@@ -47,6 +48,7 @@ void _registerInjector() {
 
 void _profileInjector() {
   injector.registerFactory(() => ProfileBloc(injector(), injector()));
+  injector.registerFactory(() => EditProfileBloc(injector()));
   injector.registerFactory(() => LogoutCubit(injector()));
 
   injector

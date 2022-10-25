@@ -18,7 +18,7 @@ Route? onGenerateRoute(RouteSettings settings) {
     case profilePageRoute:
       return _toPage(const ProfilePage());
     case editProfilePageRoute:
-      return _toPage(const ProfilePage());
+      return _toPage(const EditProfilePage());
     default:
       return null;
   }

@@ -26,7 +26,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
         if (uid == null) {
           logoutUser();
-          return const Left(AuthFailure('Your session has been expired, please login again.'));
+          return const Left(AuthFailure(
+              'Your session has been expired, please login again.'));
         }
 
         final result = await remoteDataSource.getUserProfile(uid);
@@ -46,7 +47,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<Failure, bool>> updateUserProfile(
     String name,
-    String gender,
+    Gender gender,
     String birthDate,
     int height,
   ) async {
@@ -65,7 +66,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
           uid: uid!,
           email: email!,
           name: name,
-          gender: (gender == 'm') ? Gender.male : Gender.female,
+          gender: gender,
           birthDate: birthDate,
           height: height,
           profileUrl: '',
@@ -73,8 +74,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
         );
 
         final result = await remoteDataSource.updateUserProfile(profile);
-        preference.setBool(
-            PrefKey.isProfileCompleted, profile.isProfileComplete);
+        preference.setBool(PrefKey.isProfileCompleted, profile.isProfileComplete);
         return Right(result);
       } on AuthException catch (e) {
         return Left(AuthFailure(e.message));

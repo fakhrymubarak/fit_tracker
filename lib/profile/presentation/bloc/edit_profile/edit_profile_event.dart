@@ -3,26 +3,31 @@ part of 'edit_profile_bloc.dart';
 @immutable
 abstract class EditProfileEvent {}
 
-// Register User Event
-class RegisterUserEvent extends EditProfileEvent {}
+class EditProfileName extends EditProfileEvent {
+  final String name;
 
-// Email Validation Event
-class EmailValidateEvent extends EditProfileEvent {
-  final String email;
-
-  EmailValidateEvent(this.email);
+  EditProfileName(this.name);
 }
 
-// Pass Validation Event
-class PassValidateEvent extends EditProfileEvent {
-  final String password;
-
-  PassValidateEvent(this.password);
+class UpdateProfileEvent extends EditProfileEvent {
+  UpdateProfileEvent();
 }
 
-// Confirm Pass Validation Event
-class ConfirmPassValidateEvent extends EditProfileEvent {
-  final String confirmPassword;
+/* FILLED FORM EVENT */
+class EditProfileHeight extends EditProfileEvent {
+  final int height;
 
-  ConfirmPassValidateEvent(this.confirmPassword);
+  EditProfileHeight(this.height);
+}
+
+class EditProfileGender extends EditProfileEvent {
+  final Gender? gender;
+
+  EditProfileGender(this.gender);
+}
+
+class EditProfileBirthDate extends EditProfileEvent {
+  final String birthDate;
+
+  EditProfileBirthDate(this.birthDate);
 }

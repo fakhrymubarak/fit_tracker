@@ -8,7 +8,7 @@ abstract class ProfileRepository {
 
   Future<Either<Failure, bool>> updateUserProfile(
     String name,
-    String gender,
+    Gender gender,
     String birthDate,
     int height,
   );

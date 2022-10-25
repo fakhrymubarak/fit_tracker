@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../values/styles.dart';
 
@@ -41,7 +42,8 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
       child: TextFormField(
           maxLength: 100,
           onChanged: widget.onChanged,
-          obscureText: widget.inputType.contains(TextFieldType.password) && !_isPasswordVisible,
+          obscureText: widget.inputType.contains(TextFieldType.password) &&
+              !_isPasswordVisible,
           enableSuggestions: !widget.inputType.contains(TextFieldType.password),
           autocorrect: !widget.inputType.contains(TextFieldType.password),
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -57,6 +59,9 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
             !isValid ? colorGray1 : colorRed20,
             widget.label,
           ),
+          inputFormatters: widget.inputType.contains(TextFieldType.digitsOnly)
+              ? [FilteringTextInputFormatter.digitsOnly]
+              : [],
           validator: (_) {
             return widget.errorMessage;
           }),

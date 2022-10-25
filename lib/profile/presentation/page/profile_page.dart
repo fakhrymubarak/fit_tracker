@@ -98,54 +98,125 @@ class ProfileSectionWidget extends StatelessWidget {
               Text(state.profile.email),
               const SizedBox(height: spacingSmall),
               (isProfileComplete)
-                  ? Column(
-                      children: [
-                        Text(state.profile.name ?? "User"),
-                        const SizedBox(height: spacingSmall),
-                        Text(state.profile.birthDate ?? "01-01-1970"),
-                        const SizedBox(height: spacingSmall),
-                        Text('${state.profile.height ?? 0} cm'),
-                        const SizedBox(height: spacingRegular),
-                      ],
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: spacingRegular),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: spacingRegular),
+                          Row(
+                            children: [
+                              const SizedBox(width: 100, child: Text("Name")),
+                              Text(
+                                state.profile.name ?? "User",
+                                style: textMediumBlack_12pt,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: spacingSmall),
+                          Row(
+                            children: [
+                              const SizedBox(width: 100, child: Text("Height")),
+                              Text(
+                                '${state.profile.height ?? 0} cm',
+                                style: textMediumBlack_12pt,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: spacingSmall),
+                          Row(
+                            children: [
+                              const SizedBox(width: 100, child: Text("Gender")),
+                              Text(
+                                state.profile.gender?.name ?? "-",
+                                style: textMediumBlack_12pt,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: spacingSmall),
+                          Row(
+                            children: [
+                              const SizedBox(
+                                  width: 100, child: Text("Birth Date")),
+                              Text(
+                                state.profile.birthDate ?? "01-01-1970",
+                                style: textMediumBlack_12pt,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: spacingRegular),
+                        ],
+                      ),
                     )
                   : const SizedBox.shrink(),
-              InkWell(
-                onTap: () {
-
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: spacingRegular, vertical: spacingSmaller),
-                  child: const Text('Edit Profile'),
-                ),
-              ),
               const SizedBox(height: spacingRegular),
-              BlocListener<LogoutCubit, LogoutState>(
-                listener: (context, state) {
-                  if (state is LogoutSuccess) {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, loginPageRoute, (r) => false);
-                  }
-                },
-                child: InkWell(
-                  onTap: () {
-                    context.read<LogoutCubit>().logoutUser();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: spacingRegular, vertical: spacingSmaller),
-                    child: const Text('Logout'),
-                  ),
-                ),
-              ),
+              const Divider(),
+              const EditProfileButton(),
+              const Divider(),
+              const LogoutButtonWidget(),
+              const Divider(),
             ],
           );
         } else {
           return const SizedBox.shrink();
         }
       },
+    );
+  }
+}
+
+class EditProfileButton extends StatelessWidget {
+  const EditProfileButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, editProfilePageRoute);
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(
+            horizontal: spacingRegular, vertical: spacingRegular),
+        child: Row(
+          children: const [
+            Expanded(child: Text('Edit Profile')),
+            Icon(Icons.arrow_forward_ios_rounded, size: 20)
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class LogoutButtonWidget extends StatelessWidget {
+  const LogoutButtonWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<LogoutCubit, LogoutState>(
+      listener: (context, state) {
+        if (state is LogoutSuccess) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, loginPageRoute, (r) => false);
+        }
+      },
+      child: InkWell(
+        onTap: () {
+          context.read<LogoutCubit>().logoutUser();
+        },
+        child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+                horizontal: spacingRegular, vertical: spacingRegular),
+            child: Row(
+              children: const [
+                Expanded(child: Text('Logout')),
+                Icon(Icons.logout, size: 20)
+              ],
+            )),
+      ),
     );
   }
 }

@@ -35,23 +35,4 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       (data) => emit(ProfileHasDataState(data)),
     );
   }
-
-  FutureOr<void> _updateProfile(
-    ProfileUpdateEvent event,
-    Emitter<ProfileState> emit,
-  ) async {
-    emit(ProfileLoadingState());
-
-    final result = await updateProfileUseCase.execute(
-      event.name,
-      event.gender,
-      event.birthDate.toString(),
-      event.height,
-    );
-
-    result.fold(
-      (failure) => emit(ProfileErrorState(failure.message)),
-      (data) => emit(ProfileUpdateSucceedState()),
-    );
-  }
 }
