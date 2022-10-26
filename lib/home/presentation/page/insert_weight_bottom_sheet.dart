@@ -14,56 +14,63 @@ class InsertWeightBottomSheet extends StatelessWidget {
   final String date;
   final String weight;
 
-  const InsertWeightBottomSheet(
-      {super.key,
-      required this.action,
-      this.id = '',
-      this.date = '',
-      this.weight = ''});
+  const InsertWeightBottomSheet({
+    super.key,
+    required this.action,
+    this.id = '',
+    this.date = '',
+    this.weight = '',
+  });
 
   @override
   Widget build(BuildContext context) {
     return Provider(
       create: (_) => di.injector<WeightBloc>(),
-      builder: (context, child) => Padding(
-        padding: MediaQuery.of(context).viewInsets,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.close),
+      builder: (context, child) {
+        context
+            .read<WeightBloc>()
+            ..add(EditWeight((weight.isNotEmpty) ? int.parse(weight) : 0))
+            ..add(EditWeightDate(date));
+        return Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close),
+                ),
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(spacingRegular),
-                  child: Text(
-                    "Input weight records",
-                    style: textSemiBoldBlack_20pt,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(spacingRegular),
+                    child: Text(
+                      "Input weight records",
+                      style: textSemiBoldBlack_20pt,
+                    ),
                   ),
-                ),
-                Padding(
+                  Padding(
+                      padding: const EdgeInsets.all(spacingRegular),
+                      child: _InputDate(date)),
+                  Padding(
+                      padding: const EdgeInsets.all(spacingRegular),
+                      child: _InputWeight(weight)),
+                  const SizedBox(height: spacingHuge),
+                  Padding(
                     padding: const EdgeInsets.all(spacingRegular),
-                    child: _InputDate(date)),
-                Padding(
-                    padding: const EdgeInsets.all(spacingRegular),
-                    child: _InputWeight(weight)),
-                const SizedBox(height: spacingHuge),
-                Padding(
-                  padding: const EdgeInsets.all(spacingRegular),
-                  child: _InsertWeightButton(action, id),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
+                    child: _InsertWeightButton(action, id),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -165,7 +172,11 @@ class _InsertWeightButton extends StatelessWidget {
           current is WeightSucceedState || current is WeightErrorState,
       listener: (context, state) {
         if (state is WeightSucceedState) {
-          showSnackBar(context, 'Insert Data Success!');
+          showSnackBar(
+              context,
+              (_action == WeightAction.insert)
+                  ? 'Insert Data Success!'
+                  : 'Update Data Success!');
           Navigator.pop(context);
         }
       },

@@ -1,13 +1,13 @@
-import 'package:fit_tracker/home/presentation/bloc/get_weight/list_weight_cubit.dart';
-import 'package:fit_tracker/home/presentation/page/insert_weight_bottom_sheet.dart';
-import 'package:fit_tracker/home/presentation/widgets/item_weight_widget.dart';
+import 'package:fit_tracker/core/core.dart';
+import 'package:fit_tracker/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/core.dart';
 import '../../../injection.dart' as di;
-import '../../../profile/profile.dart';
+import '../bloc/get_weight/list_weight_cubit.dart';
+import '../page/insert_weight_bottom_sheet.dart';
+import '../widgets/item_weight_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,15 +25,15 @@ class _HomePageState extends State<HomePage> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: MultiProvider(
-          providers: [
-            BlocProvider(create: (_) => di.injector<ProfileBloc>()),
-            BlocProvider(create: (_) => di.injector<ListWeightCubit>()),
-          ],
-          builder: (_, __) {
-            return Column(
+    return MultiProvider(
+      providers: [
+        BlocProvider(create: (_) => di.injector<ProfileBloc>()),
+        BlocProvider(create: (_) => di.injector<ListWeightCubit>()),
+      ],
+      builder: (_, __) {
+        return Scaffold(
+          body: SafeArea(
+            child: Column(
               children: const [
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -42,21 +42,30 @@ class _HomePageState extends State<HomePage> with RouteAware {
                 ),
                 Expanded(child: ListWeight())
               ],
-            );
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // todo check is profile completed?
-          buildBottomSheet(
-              context: context,
-              bottomSheetWidget:
-                  const InsertWeightBottomSheet(action: WeightAction.insert));
-        },
-        backgroundColor: colorSecondary,
-        child: const Icon(Icons.add),
-      ),
+            ),
+          ),
+          floatingActionButton: BlocBuilder<ProfileBloc, ProfileState>(
+            buildWhen: (previous, current) => current is ProfileCompleteState,
+            builder: (context, state) {
+              return FloatingActionButton(
+                onPressed: () {
+                  if (state is ProfileCompleteState && state.state) {
+                    buildBottomSheet(
+                        context: context,
+                        bottomSheetWidget: const InsertWeightBottomSheet(
+                            action: WeightAction.insert));
+                  } else {
+                    showSnackBar(context,
+                        "Before add a new weight, please complete your profile first.");
+                  }
+                },
+                backgroundColor: colorSecondary,
+                child: const Icon(Icons.add),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
@@ -124,7 +133,7 @@ class ListWeight extends StatelessWidget {
         }
       },
       buildWhen: (previous, current) =>
-      current is ListWeightLoadingState ||
+          current is ListWeightLoadingState ||
           current is ListWeightHasDataState,
       builder: (context, state) {
         if (state is ListWeightLoadingState) {

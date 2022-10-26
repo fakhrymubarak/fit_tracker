@@ -9,6 +9,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../../domain/usecases/get_profile_usecase.dart';
 
 part 'profile_event.dart';
+
 part 'profile_state.dart';
 
 var profileStream =
@@ -35,7 +36,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     result.fold(
       (failure) => emit(ProfileErrorState(failure.message)),
-      (data) => emit(ProfileHasDataState(data)),
+      (data) {
+        emit(ProfileHasDataState(data));
+        emit(ProfileCompleteState(data.isProfileComplete));
+      },
     );
   }
 }

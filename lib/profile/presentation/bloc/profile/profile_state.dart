@@ -5,6 +5,12 @@ abstract class ProfileState {}
 
 class ProfileInitial extends ProfileState {}
 
+class ProfileCompleteState extends ProfileState {
+  final bool state;
+
+  ProfileCompleteState(this.state);
+}
+
 // Fetch Profile
 class ProfileLoadingState extends ProfileState {}
 
