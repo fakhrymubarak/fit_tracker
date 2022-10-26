@@ -52,15 +52,10 @@ class _HomePageState extends State<HomePage> with RouteAware {
             builder: (context, state) {
               return FloatingActionButton(
                 onPressed: () {
-                  if (state is ProfileCompleteState && state.state) {
-                    buildBottomSheet(
-                        context: context,
-                        bottomSheetWidget: const InsertWeightBottomSheet(
-                            action: WeightAction.insert));
-                  } else {
-                    showSnackBar(context,
-                        "Before add a new weight, please complete your profile first.");
-                  }
+                  buildBottomSheet(
+                      context: context,
+                      bottomSheetWidget: const InsertWeightBottomSheet(
+                          action: WeightAction.insert));
                 },
                 backgroundColor: colorSecondary,
                 child: const Icon(Icons.add),
