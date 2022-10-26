@@ -6,6 +6,7 @@ export 'domain/repositories/weight_repository.dart';
 export 'domain/usecases/get_user_weights_usecase.dart';
 export 'domain/usecases/insert_weights_usecase.dart';
 export 'domain/usecases/update_weights_usecase.dart';
+export 'domain/usecases/delete_weights_usecase.dart';
 // PRESENTATION
 export 'presentation/bloc/get_weight/list_weight_cubit.dart';
 export 'presentation/bloc/insert_weight/weight_bloc.dart';

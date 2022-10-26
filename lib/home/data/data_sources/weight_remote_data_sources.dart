@@ -11,6 +11,8 @@ abstract class WeightRemoteDataSource {
   Future<void> insertUserWeight(String uid, Weight data);
 
   Future<void> updateUserWeight(String uid, Weight data);
+
+  Future<void> deleteUserWeight(String uid, Weight data);
 }
 
 class WeightRemoteDataSourceImpl implements WeightRemoteDataSource {
@@ -65,6 +67,22 @@ class WeightRemoteDataSourceImpl implements WeightRemoteDataSource {
           .collection(Weight.collectionName)
           .doc(data.id)
           .set(data.toFirestore());
+    } catch (e) {
+      debugPrint(e.toString());
+      throw DatabaseException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> deleteUserWeight(String uid, Weight data) async {
+    final db = FirebaseFirestore.instance;
+    try {
+      db
+          .collection(UserProfile.collectionName)
+          .doc(uid)
+          .collection(Weight.collectionName)
+          .doc(data.id)
+          .delete();
     } catch (e) {
       debugPrint(e.toString());
       throw DatabaseException(e.toString());

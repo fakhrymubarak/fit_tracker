@@ -13,6 +13,13 @@ class UpdateWeightEvent extends WeightEvent {
   UpdateWeightEvent(this.idData);
 }
 
+/* DELETE NEW WEIGHT */
+class DeleteWeightEvent extends WeightEvent {
+  final Weight item;
+
+  DeleteWeightEvent(this.item);
+}
+
 /* FILLED FORM EVENT */
 class EditWeightDate extends WeightEvent {
   final String date;

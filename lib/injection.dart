@@ -19,23 +19,23 @@ void init() {
 }
 
 void _userWeightInjector() {
-  injector.registerFactory(() => ListWeightCubit(injector()));
-  injector.registerFactory(() => WeightBloc(injector(), injector()));
-
-  injector.registerLazySingleton(
-      () => GetUserWeightsUseCase(repository: injector()));
   injector
-      .registerLazySingleton(() => InsertWeightUseCase(repository: injector()));
+    ..registerFactory(() => ListWeightCubit(injector()))
+    ..registerFactory(() => WeightBloc(injector(), injector(), injector()));
+
   injector
-      .registerLazySingleton(() => UpdateWeightUseCase(repository: injector()));
+    ..registerLazySingleton(() => GetUserWeightsUseCase(repository: injector()))
+    ..registerLazySingleton(() => InsertWeightUseCase(repository: injector()))
+    ..registerLazySingleton(() => UpdateWeightUseCase(repository: injector()))
+    ..registerLazySingleton(() => DeleteWeightUseCase(repository: injector()));
 
-  injector.registerLazySingleton<WeightRepository>(() => WeightRepositoryImpl(
-      remoteDataSource: injector(),
-      networkInfo: injector(),
-      preference: injector()));
-
-  injector.registerLazySingleton<WeightRemoteDataSource>(
-      () => WeightRemoteDataSourceImpl());
+  injector
+    ..registerLazySingleton<WeightRepository>(() => WeightRepositoryImpl(
+        remoteDataSource: injector(),
+        networkInfo: injector(),
+        preference: injector()))
+    ..registerLazySingleton<WeightRemoteDataSource>(
+        () => WeightRemoteDataSourceImpl());
 }
 
 void _loginInjector() {

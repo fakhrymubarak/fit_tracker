@@ -78,4 +78,25 @@ class WeightRepositoryImpl extends WeightRepository {
       return const Left(ConnectionFailure.networkFailure);
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> deleteUserWeight(Weight data) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final uid = await preference.getString(PrefKey.userUid);
+
+        await remoteDataSource.deleteUserWeight(uid!, data);
+        return const Right(true);
+      } on AuthException catch (e) {
+        return Left(AuthFailure(e.message));
+      } on ServerException {
+        return const Left(ServerFailure('Server Failure'));
+      } catch (e) {
+        debugPrint(e.toString());
+        return const Left(UnknownFailure.fail);
+      }
+    } else {
+      return const Left(ConnectionFailure.networkFailure);
+    }
+  }
 }

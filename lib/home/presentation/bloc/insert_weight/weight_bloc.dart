@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:fit_tracker/home/data/models/weight.dart';
+import 'package:fit_tracker/home/domain/usecases/delete_weights_usecase.dart';
 import 'package:fit_tracker/home/domain/usecases/insert_weights_usecase.dart';
 import 'package:fit_tracker/home/domain/usecases/update_weights_usecase.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'weight_event.dart';
+
 part 'weight_state.dart';
 
 class WeightBloc extends Bloc<WeightEvent, WeightState> {
@@ -15,16 +18,22 @@ class WeightBloc extends Bloc<WeightEvent, WeightState> {
 
   final InsertWeightUseCase insertUseCase;
   final UpdateWeightUseCase updateUseCase;
+  final DeleteWeightUseCase deleteUseCase;
   String _date = '';
   int _weight = 0;
 
-  WeightBloc(this.insertUseCase, this.updateUseCase) : super(WeightInitial()) {
+  WeightBloc(this.insertUseCase, this.updateUseCase, this.deleteUseCase)
+      : super(WeightInitial()) {
     on<InsertNewWeightEvent>(
       _insertNewHeight,
       transformer: (events, mapper) => events.switchMap(mapper),
     );
     on<UpdateWeightEvent>(
       _updateWeightEvent,
+      transformer: (events, mapper) => events.switchMap(mapper),
+    );
+    on<DeleteWeightEvent>(
+      _deleteWeightEvent,
       transformer: (events, mapper) => events.switchMap(mapper),
     );
 
@@ -78,6 +87,19 @@ class WeightBloc extends Bloc<WeightEvent, WeightState> {
     }
 
     final result = await updateUseCase.execute(event.idData, _date, _weight);
+
+    result.fold(
+      (failure) => emit(WeightErrorState(failure.message)),
+      (data) => emit(WeightSucceedState()),
+    );
+  }
+
+  FutureOr<void> _deleteWeightEvent(
+    DeleteWeightEvent event,
+    Emitter<WeightState> emit,
+  ) async {
+    emit(WeightLoadingState());
+    final result = await deleteUseCase.execute(event.item);
 
     result.fold(
       (failure) => emit(WeightErrorState(failure.message)),

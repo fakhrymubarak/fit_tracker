@@ -1,4 +1,5 @@
 import 'package:fit_tracker/core/core.dart';
+import 'package:fit_tracker/home/home.dart';
 import 'package:fit_tracker/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
       providers: [
         BlocProvider(create: (_) => di.injector<ProfileBloc>()),
         BlocProvider(create: (_) => di.injector<ListWeightCubit>()),
+        BlocProvider(create: (_) => di.injector<WeightBloc>()),
       ],
       builder: (_, __) {
         return Scaffold(

@@ -9,4 +9,6 @@ abstract class WeightRepository {
   Future<Either<Failure, bool>> insertUserWeight(String date, int weight);
 
   Future<Either<Failure, bool>> updateUserWeight(Weight data);
+
+  Future<Either<Failure, bool>> deleteUserWeight(Weight data);
 }

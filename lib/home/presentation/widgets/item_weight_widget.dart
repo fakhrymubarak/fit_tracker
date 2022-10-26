@@ -1,6 +1,8 @@
 import 'package:fit_tracker/core/core.dart';
+import 'package:fit_tracker/home/home.dart';
 import 'package:fit_tracker/home/presentation/page/insert_weight_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/models/weight.dart';
 
@@ -54,7 +56,9 @@ class ItemWeightWidget extends StatelessWidget {
                 icon: const Icon(Icons.edit, color: colorSecondary),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<WeightBloc>().add(DeleteWeightEvent(item));
+                },
                 icon: const Icon(Icons.delete, color: colorRedError),
               )
             ],
