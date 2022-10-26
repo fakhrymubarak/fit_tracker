@@ -9,14 +9,17 @@ class GetUserWeightsUseCase {
 
   GetUserWeightsUseCase({required this.repository});
 
-  Future<Either<Failure, List<Weight>>> execute() async {
+  Future<Either<Failure, Stream<List<Weight>>>> execute() async {
     final result = repository.getUserWeights();
     return result.then(
       (value) => value.flatMap(
-        (listWeight) {
-          listWeight.sort((a, b) => b.inputDate.compareTo(a.inputDate));
-          final List<Weight> result = List.from(listWeight);
-          return Right(result);
+        (stream) {
+          final mappedStream = stream.map((listWeight) {
+            listWeight.sort((a, b) => b.inputDate.compareTo(a.inputDate));
+            final List<Weight> result = List.from(listWeight);
+            return result;
+          });
+          return Right(mappedStream);
         },
       ),
     );

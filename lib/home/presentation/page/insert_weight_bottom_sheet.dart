@@ -27,10 +27,12 @@ class InsertWeightBottomSheet extends StatelessWidget {
     return Provider(
       create: (_) => di.injector<WeightBloc>(),
       builder: (context, child) {
-        context
-            .read<WeightBloc>()
+        // if update, fill the date
+        if (action == WeightAction.update) {
+          context.read<WeightBloc>()
             ..add(EditWeight((weight.isNotEmpty) ? int.parse(weight) : 0))
             ..add(EditWeightDate(date));
+        }
         return Padding(
           padding: MediaQuery.of(context).viewInsets,
           child: Column(

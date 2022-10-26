@@ -8,7 +8,7 @@ class ListWeightInitial extends ListWeightState {}
 class ListWeightLoadingState extends ListWeightState {}
 
 class ListWeightHasDataState extends ListWeightState {
-  final List<Weight> weights;
+  final Stream<List<Weight>> weights;
 
   ListWeightHasDataState(this.weights);
 }

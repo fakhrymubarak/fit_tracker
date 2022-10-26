@@ -18,13 +18,13 @@ class WeightRepositoryImpl extends WeightRepository {
   });
 
   @override
-  Future<Either<Failure, List<Weight>>> getUserWeights() async {
+  Future<Either<Failure, Stream<List<Weight>>>> getUserWeights() async {
     if (await networkInfo.isConnected) {
       try {
         final uid = await preference.getString(PrefKey.userUid);
 
         final result = await remoteDataSource.getListHeight(uid!);
-        return Right(result);
+        return Right(await result);
       } on AuthException catch (e) {
         return Left(AuthFailure(e.message));
       } on ServerException {

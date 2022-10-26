@@ -1,4 +1,5 @@
 import 'package:fit_tracker/core/core.dart';
+import 'package:fit_tracker/home/data/models/weight.dart';
 import 'package:fit_tracker/home/home.dart';
 import 'package:fit_tracker/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -141,16 +142,20 @@ class ListWeight extends StatelessWidget {
         if (state is ListWeightLoadingState) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is ListWeightHasDataState) {
-          final weights = state.weights;
-          return ListView.builder(
-            padding: const EdgeInsets.symmetric(
-                vertical: spacingSmall, horizontal: spacingRegular),
-            itemCount: weights.length,
-            itemBuilder: (context, index) {
-              final weight = weights[index];
-              return ItemWeightWidget(item: weight);
-            },
-          );
+          return StreamBuilder<List<Weight>>(
+              stream: state.weights,
+              builder: (context, snapshot) {
+                final weights = snapshot.data ?? [];
+                return ListView.builder(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: spacingSmall, horizontal: spacingRegular),
+                  itemCount: weights.length,
+                  itemBuilder: (context, index) {
+                    final weight = weights[index];
+                    return ItemWeightWidget(item: weight);
+                  },
+                );
+              });
         } else {
           return const SizedBox.shrink();
         }

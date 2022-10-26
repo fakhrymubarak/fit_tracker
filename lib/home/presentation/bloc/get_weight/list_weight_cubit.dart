@@ -9,12 +9,15 @@ part 'list_weight_state.dart';
 
 class ListWeightCubit extends Cubit<ListWeightState> {
   final GetUserWeightsUseCase useCase;
+  var fakeStream = Stream<int>.periodic(const Duration(seconds: 1), (x) => x).take(180);
 
-  ListWeightCubit(this.useCase) : super(ListWeightInitial());
+  ListWeightCubit(this.useCase) : super(ListWeightInitial()) {
+    fakeStream.listen((_) {
+      fetchUserWeights();
+    });
+  }
 
   FutureOr<void> fetchUserWeights() async {
-    emit(ListWeightLoadingState());
-
     final result = await useCase.execute();
 
     result.fold(

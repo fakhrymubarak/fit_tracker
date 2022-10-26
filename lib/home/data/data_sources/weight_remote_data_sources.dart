@@ -6,7 +6,7 @@ import '../../../profile/profile.dart';
 import '../models/weight.dart';
 
 abstract class WeightRemoteDataSource {
-  Future<List<Weight>> getListHeight(String uid);
+  Future<Stream<List<Weight>>> getListHeight(String uid);
 
   Future<void> insertUserWeight(String uid, Weight data);
 
@@ -16,26 +16,24 @@ abstract class WeightRemoteDataSource {
 }
 
 class WeightRemoteDataSourceImpl implements WeightRemoteDataSource {
+  final db = FirebaseFirestore.instance;
   @override
-  Future<List<Weight>> getListHeight(String uid) async {
-    final db = FirebaseFirestore.instance;
+  Future<Stream<List<Weight>>> getListHeight(String uid) async {
     try {
       final docRefs = db
           .collection(UserProfile.collectionName)
           .doc(uid)
           .collection(Weight.collectionName);
+
       final weights = docRefs.get().then(
-        (querySnapshot) => querySnapshot.docs
-            .map(
-              (doc) => Weight.fromFirestore(doc),
-            )
-            .toList(),
+        (querySnapshot) =>
+            querySnapshot.docs.map((doc) => Weight.fromFirestore(doc)).toList(),
         onError: (e) {
           debugPrint("Error getting document: $e");
           throw DatabaseException(e);
         },
       );
-      return weights;
+      return weights.asStream();
     } catch (e) {
       debugPrint(e.toString());
       throw ServerException();
@@ -44,7 +42,6 @@ class WeightRemoteDataSourceImpl implements WeightRemoteDataSource {
 
   @override
   Future<void> insertUserWeight(String uid, Weight data) async {
-    final db = FirebaseFirestore.instance;
     try {
       db
           .collection(UserProfile.collectionName)
@@ -59,7 +56,6 @@ class WeightRemoteDataSourceImpl implements WeightRemoteDataSource {
 
   @override
   Future<void> updateUserWeight(String uid, Weight data) async {
-    final db = FirebaseFirestore.instance;
     try {
       db
           .collection(UserProfile.collectionName)
@@ -75,7 +71,6 @@ class WeightRemoteDataSourceImpl implements WeightRemoteDataSource {
 
   @override
   Future<void> deleteUserWeight(String uid, Weight data) async {
-    final db = FirebaseFirestore.instance;
     try {
       db
           .collection(UserProfile.collectionName)

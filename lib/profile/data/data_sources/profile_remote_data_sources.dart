@@ -11,9 +11,10 @@ abstract class ProfileRemoteDataSource {
 }
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
+  final db = FirebaseFirestore.instance;
+
   @override
   Future<UserProfile> getUserProfile(String uid) async {
-    final db = FirebaseFirestore.instance;
     try {
       final docRefs = db.collection(UserProfile.collectionName).doc(uid);
       debugPrint('uid -> $uid');
@@ -34,7 +35,6 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
   @override
   Future<bool> updateUserProfile(UserProfile profile) async {
-    final db = FirebaseFirestore.instance;
     try {
       db
           .collection(UserProfile.collectionName)
