@@ -1,6 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:fit_tracker/core/helpers/failure_helpers.dart';
-import 'package:fit_tracker/core/helpers/network_info_helpers.dart';
 import 'package:fit_tracker/register/data/data_sources/register_remote_data_source.dart';
 import 'package:fit_tracker/register/domain/entities/authentication_form.dart';
 import 'package:flutter/cupertino.dart';

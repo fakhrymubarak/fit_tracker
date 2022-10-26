@@ -22,7 +22,6 @@ class ProfileRepositoryImpl implements ProfileRepository {
     if (await networkInfo.isConnected) {
       try {
         final uid = await preference.getString(PrefKey.userUid);
-        debugPrint('profile repo uid -> $uid');
 
         if (uid == null) {
           logoutUser();

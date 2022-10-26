@@ -24,7 +24,7 @@ class WeightRepositoryImpl extends WeightRepository {
         final uid = await preference.getString(PrefKey.userUid);
 
         final result = await remoteDataSource.getListHeight(uid!);
-        return Right(await result);
+        return Right(result);
       } on AuthException catch (e) {
         return Left(AuthFailure(e.message));
       } on ServerException {

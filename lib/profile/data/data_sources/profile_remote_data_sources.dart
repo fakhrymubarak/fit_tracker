@@ -17,7 +17,6 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   Future<UserProfile> getUserProfile(String uid) async {
     try {
       final docRefs = db.collection(UserProfile.collectionName).doc(uid);
-      debugPrint('uid -> $uid');
       final user = docRefs.get().then(
         (DocumentSnapshot doc) => UserProfile.fromFirestore(
             doc as DocumentSnapshot<Map<String, dynamic>>),

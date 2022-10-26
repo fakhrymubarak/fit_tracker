@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../injection.dart' as di;
-import '../bloc/get_weight/list_weight_cubit.dart';
 import '../page/insert_weight_bottom_sheet.dart';
 import '../widgets/item_weight_widget.dart';
 

@@ -181,6 +181,5 @@ class EmailTextFieldWidget extends StatelessWidget {
         );
       },
     );
-    ;
   }
 }
